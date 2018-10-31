@@ -45,36 +45,66 @@ const router = new Router({
 
 // 导航守卫
 router.beforeEach((to, from, next) => {
+  let cookieName = Configs.cookieName
+  let token = Cookie.get(cookieName)
   let user = store.state.user
-  if (user) {
-    next()
-  } else {
-    let isCookie = Cookie.isName(Configs.cookieName)
-    if (to.matched.some(record => record.meta.toLog)) { // 不需要验证的页面：登录，注册
-      if (isCookie) {
-        next('/')
-      } else {
-        next()
-      }
-    } else if (to.matched.some(record => record.meta.requireAuth)) { // 需要验证的页面
-      if (isCookie) { // 发送token到服务器进行验证
-        Http.post('/token')
+  if (to.matched.some(record => record.meta.toLog)) { // 登录，注册
+    if (user) {
+      next('/')
+    } else {
+      if (token) { // cookie存在，后端token验证
+        Http.post('/login/token', {token: token})
           .then(res => {
             res = res.data
-            if (res.code) {
+            if (res.code) { // 验证成功
+              store.dispatch('login', res.data.name)
+              next('/')
+            } else { // 验证失败
+              if (Cookie.has(cookieName)) {
+                Cookie.remove(cookieName)
+              }
+              console.log('Token Login Fail.\n' + res.msg)
               next()
-            } else {
-              Cookie.remove(Configs.cookieName)
+            }
+          })
+          .catch(err => {
+            console.log('Token Login Error: ' + err)
+            next()
+          })
+        next('/')
+      } else { // cookie不存在
+        next()
+      }
+    }
+  } else if (to.matched.some(record => record.meta.requireAuth)) { // 需要验证的页面
+    if (user) {
+      next()
+    } else {
+      if (token) { // cookie存在，后端token验证
+        Http.post('/login/token', {token: token})
+          .then(res => {
+            res = res.data
+            if (res.code) { // 验证成功
+              store.dispatch('login', res.data.name)
+              next()
+            } else { // 验证失败
+              if (Cookie.has(cookieName)) {
+                Cookie.remove(cookieName)
+              }
+              console.log('Token Login Fail.\n Msg: ' + res.msg)
               next('/login')
             }
           })
-          .catch()
-      } else {
+          .catch(err => {
+            console.log('Token Login Error: ' + err)
+            next()
+          })
+      } else { // cookie不存在
         next('/login')
       }
-    } else {
-      next()
     }
+  } else { // 不需验证的页面
+    next()
   }
 })
 
