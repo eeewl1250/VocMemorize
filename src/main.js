@@ -6,11 +6,13 @@ import router from './router'
 import store from './store'
 import './element'
 import Http from './util/http'
-import Cookies from './util/cookie'
+import Cookie from './util/cookie'
+import Configs from './assets/global'
 
 Vue.config.productionTip = false
 
-Vue.prototype.$cookies = Cookies
+Vue.prototype.$cookies = Cookie
+Vue.prototype.$configs = Configs
 
 // http请求
 Vue.prototype.$http = Http

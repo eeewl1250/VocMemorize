@@ -19,10 +19,28 @@ export default {
       this.$router.replace('/login')
     },
     logout () {
-      this.$store.dispatch('logout')
-        .then(() => {
-          this.$cookies.remove(this.$store.state.cookieName)
-          this.$router.replace('/login')
+      if (!this.user) {
+        console.error('Not login yet.')
+      }
+      this.$http.post('/login/logout', {
+        name: this.user
+      })
+        .then(res => {
+          res = res.data
+          if (!res.code) {
+            console.error(res.msg)
+          } else {
+            this.$store.dispatch('logout')
+              .then(() => {
+                if (this.$cookies.has(this.$configs.cookieName)) {
+                  this.$cookies.remove(this.$configs.cookieName)
+                }
+                this.$router.replace('/login')
+              })
+          }
+        })
+        .catch(err => {
+          console.error(err)
         })
     }
   },
