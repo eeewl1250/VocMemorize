@@ -14,6 +14,36 @@
 <script>
 export default {
   name: 'App',
+  mounted () {
+    this.$http.post('/login')
+      .then(res => {
+        res = res.data
+        if (res.code) {
+          this.$store.dispatch('login', res.data.name)
+            .then(() => {
+              this.$notify({
+                title: 'success',
+                message: 'Welcome, ' + res.data.name + '!',
+                type: 'success'
+              })
+              console.log(res.msg)
+              this.$router.replace('./')
+            })
+        } else {
+          this.$notify.error({
+            title: 'Fail.',
+            message: res.msg
+          })
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        this.$notify.error({
+          title: 'Network fail.',
+          message: 'Please check your network.'
+        })
+      })
+  },
   methods: {
     login () {
       this.$router.replace('/login')
