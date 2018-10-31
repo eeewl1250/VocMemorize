@@ -32,7 +32,6 @@ var Cookie = {
   },
   // 设置
   set (name, value, expires, path, domain, secure) {
-    let cookie = ''
     if (!name) {
       throw new Error('Set cookie: Name needed!')
     }
@@ -53,15 +52,13 @@ var Cookie = {
     if (domain && domain.match(/\s+/)) {
       throw new Error('Set cookie: Illegal domain.')
     }
-    //document.cookie
-    cookie = encodeURIComponent(name) + '='
+    document.cookie = encodeURIComponent(name) + '='
       + (value ? encodeURIComponent(value) : '')
       + (expires ? '; expires=' + expires : '')
       + (path ? '; path=' + path : '')
       + (domain ? '; domain=' + domain : '')
       + (secure !== undefined && String(secure) ? '; secure=' + secure : '')
-    document.cookie = cookie
-    console.log(cookie)
+    return true
   },
   // 移除
   remove (name, path, domain) {
