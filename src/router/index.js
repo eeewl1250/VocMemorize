@@ -9,6 +9,7 @@ import Main from '@/components/Main'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
 import WordsImport from '@/components/Import'
+import WordsRecite from '@/components/recite/Word'
 
 Vue.use(Router)
 
@@ -36,6 +37,13 @@ const router = new Router({
       path: '/import',
       name: 'import',
       component: WordsImport,
+      meta: {
+        requireAuth: true
+      }
+    }, {
+      path: '/word',
+      name: 'word',
+      component: WordsRecite,
       meta: {
         requireAuth: true
       }

@@ -4,6 +4,9 @@
     <p>
       <el-button type="primary" plain v-on:click="$router.push('/import')">Words Import</el-button>
     </p>
+    <p>
+      <el-button type="primary" plain v-on:click="$router.push('/word')">Words Recite</el-button>
+    </p>
   </div>
 </template>
 
