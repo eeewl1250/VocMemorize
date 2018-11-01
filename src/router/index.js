@@ -10,7 +10,6 @@ import Login from '@/components/Login'
 import Register from '@/components/Register'
 import WordsImport from '@/components/Import'
 import WordsRecite from '@/components/recite/Word'
-import Button from '@/components/recite/Button'
 
 Vue.use(Router)
 
@@ -47,13 +46,7 @@ const router = new Router({
       component: WordsRecite,
       meta: {
         requireAuth: true
-      },
-      children: [
-        {
-          path: '',
-          component: Button
-        }
-      ]
+      }
     }
   ]
 })
