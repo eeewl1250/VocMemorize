@@ -83,12 +83,22 @@ export default {
 </script>
 
 <style>
+@import url(http://fonts.font.im/css?family=Junge|Open+Sans:400,300);
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: Junge, Helvetica, Arial, sans-serif;
+  font-weight: 300;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  /*color: #2c3e50;*/
+  color: ivory;
   margin: 60px;
+}
+#app button {
+  font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+}
+body {
+  background-color: #22264b;
 }
 </style>

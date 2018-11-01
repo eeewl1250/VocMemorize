@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="wordLine">
-      <div class="gender">{{ word.gender }}</div>
-      <div class="word">{{ word.word }}</div>
-      <div class="plural">{{ word.plural }}</div>
+      <span class="gender">{{ word.gender }}</span>
+      <span class="word">{{ word.word }}</span>
+      <span class="plural">{{ word.plural }}</span>
     </div>
   </div>
 </template>
@@ -24,5 +24,17 @@ export default {
 </script>
 
 <style scoped>
-h1 {}
+.wordLine div {
+  display: flex;
+  justify-content: center;
+  line-height: 2rem;
+}
+.gender {}
+.word {
+  font-size: 2rem;
+  font-weight: bold;
+  /*font-family: "Frutiger Neue W02 Thin", Arial, Helvetica, sans-serif;*/
+  font-family: 'Open Sans';
+  color: #b56969;
+}
 </style>
