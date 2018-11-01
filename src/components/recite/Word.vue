@@ -5,6 +5,7 @@
       <span class="word">{{ word.word }}</span>
       <span class="plural">{{ word.plural }}</span>
     </div>
+    <router-view />
   </div>
 </template>
 
@@ -24,17 +25,19 @@ export default {
 </script>
 
 <style scoped>
-.wordLine div {
+.wordLine {
   display: flex;
   justify-content: center;
-  line-height: 2rem;
+  align-items: baseline;
+}
+.wordLine>span {
+  margin: 0.2rem;
 }
 .gender {}
 .word {
   font-size: 2rem;
   font-weight: bold;
-  /*font-family: "Frutiger Neue W02 Thin", Arial, Helvetica, sans-serif;*/
-  font-family: 'Open Sans';
+  font-family: Junge;
   color: #b56969;
 }
 </style>
