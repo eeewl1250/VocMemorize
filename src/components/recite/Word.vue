@@ -1,13 +1,13 @@
 <template>
   <div>
     <div class="word-line">
-      <span class="gender">{{ word.gender }}</span>
-      <span class="word">{{ word.word }}</span>
-      <span class="plural">{{ word.plural }}</span>
+      <span class="gender">{{ word[nowIndex].gender }}</span>
+      <span class="word">{{ word[nowIndex].word }}</span>
+      <span class="plural">{{ word[nowIndex].plural }}</span>
     </div>
     <div class="Word-mean">
-      <p>{{ word.mean }}</p>
-      <p>{{ word.examples }}</p>
+      <p>{{ word[nowIndex].mean }}</p>
+      <p>{{ word[nowIndex].examples[0] }}</p>
     </div>
     <div class="recite-buttons">
       <button v-on:click="forgot">忘记</button>
@@ -51,24 +51,93 @@ export default {
             'Guten Abend!'
           ]
         }
-      ]
+      ],
+      frequency: [0, 1, 2, 4, 7, 15, 30, 60, 110, 180, 360, 1080],
+      nowIndex: 0,
+      progress: []
     }
   },
-  method: {
-    forgot () {},
-    remember () {},
-    partOf () {}
+  computed: {
+    list: function () {
+      let list = []
+      for (let index in this.word) {
+        let item = this.word[index]
+        list[index] = {
+          word: item.word,
+          mean: item.mean,
+          example: item.examples[0],
+          other: {
+            example: item.examples[1]
+          },
+          remember: [],
+          numForget: 0
+        }
+      }
+      return list
+    }
+  },
+  mounted () {
+    for (let i in this.list) {
+      this.progress[i] = {
+        reciteDate: 0,
+        remember: [],
+        forgot: 0
+      }
+    }
+    if (!localStorage.list) {
+      localStorage.setItem('list', JSON.stringify(this.list))
+    }
+    if (!localStorage.progress) {
+      localStorage.setItem('progress', JSON.stringify(this.progress))
+    }
+  },
+  methods: {
+    setStorage (name, obj) {
+      localStorage.setItem(name, JSON.stringify(obj))
+    },
+    getStorage (name) {
+      return JSON.parse(localStorage.getItem(name))
+    },
+    nextWord (reciteDay, remember, forget) {
+      let progress = this.progress[this.nowIndex]
+      console.log(this.nowIndex)
+      console.log(progress)
+      this.progress[this.nowIndex] = {
+        reciteDate: progress.reciteDate + 1 - reciteDay,
+        remember: remember,
+        forgot: progress.forgot + forget
+      }
+      console.log(this.progress)
+      this.setStorage('progress', this.progress)
+      this.nowIndex += this.nowIndex < this.list.length - 1 ? 1 : 0
+      return true
+    },
+    forgot () {
+      this.nextWord(1, ['word', 'mean', 'example'], 1)
+      return true
+    },
+    partOf () {
+      this.nextWord(0.5, [], 0)
+      return true
+    },
+    remember () {
+      this.nextWord(0, [], 0)
+      return true
+    }
   }
 }
 </script>
 
 <style scoped>
-.wordLine {
+div {
+  font-size: 1.1rem;
+}
+.word-line {
   display: flex;
   justify-content: center;
   align-items: baseline;
 }
-.wordLine>span {
+.word-line>span {
   margin: 0.2rem;
 }
 .gender {}
