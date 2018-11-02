@@ -27,7 +27,7 @@ export default {
                 type: 'success'
               })
               console.log(res.msg)
-              this.$router.replace('./')
+              // this.$router.replace('./')
             })
         } else {
           this.$notify.error({
