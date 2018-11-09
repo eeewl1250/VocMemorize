@@ -7,6 +7,9 @@
     <p>
       <el-button type="primary" plain v-on:click="$router.push('/word')">Words Recite</el-button>
     </p>
+    <p>
+      <el-button type="primary" plain v-on:click="$router.push('/add/book')">Add Book</el-button>
+    </p>
   </div>
 </template>
 

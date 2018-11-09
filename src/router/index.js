@@ -13,6 +13,8 @@ import WordsRecite from '@/components/recite/Word'
 import WordsList from '@/components/recite/List'
 import WordsMain from '@/components/recite/Main'
 
+import AddBook from '@/components/operate/AddBook'
+
 Vue.use(Router)
 
 const router = new Router({
@@ -60,6 +62,13 @@ const router = new Router({
       path: '/recite',
       name: 'recite',
       component: WordsMain,
+      meta: {
+        requireAuth: true
+      }
+    }, {
+      path: '/add/book',
+      name: 'addBook',
+      component: AddBook,
       meta: {
         requireAuth: true
       }
