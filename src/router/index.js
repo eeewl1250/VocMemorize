@@ -14,6 +14,7 @@ import WordsList from '@/components/recite/List'
 import WordsMain from '@/components/recite/Main'
 
 import AddBook from '@/components/operate/AddBook'
+import AddExample from '@/components/operate/AddExample'
 
 Vue.use(Router)
 
@@ -69,6 +70,13 @@ const router = new Router({
       path: '/add/book',
       name: 'addBook',
       component: AddBook,
+      meta: {
+        requireAuth: true
+      }
+    }, {
+      path: '/add/example',
+      name: 'addExample',
+      component: AddExample,
       meta: {
         requireAuth: true
       }
